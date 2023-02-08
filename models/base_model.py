@@ -4,6 +4,7 @@
 
 import uuid
 from datetime import datetime
+from models import storage
 
 
 format_time = "%Y-%m-%dT%H:%M:%S.%f"
@@ -16,9 +17,22 @@ class BaseModel:
         <class 'BaseModel'> -> to_dict() -> <class 'dict'> ->
         <class 'BaseModel'> """
         if kwargs:
+
+            
+
             for key, value in kwargs.items():
                 if key != "__Class__":
                     setattr(self, key, value)
+
+            for key, value in kwargs.items():
+                """ 
+                for new instance (not from a dictionary representation),  a call is added  to the method new(self) on storage
+                """
+                setattr(self, key, value)
+
+            else:
+                storage.new(self)
+
             
             if kwargs.get("created_at") and type(self.created_at) is str:
                     self.created_at = datetime.strptime(kwargs["created_at"], format_time)
@@ -47,6 +61,12 @@ class BaseModel:
         current datetime"""
         self.updated_at = datetime.utcnow()
 
+        storage.new(self)
+        storage.save()
+        """
+        calling save(self) method of storage
+        """
+
     def to_dict(self):
         """returns a dictionary containing all keys/values of __dict__ 
         of the instance"""
@@ -61,3 +81,6 @@ class BaseModel:
             new_dict["updated_at"] = new_dict["updated_at"].isoformat()
 
         return new_dict
+
+
+    
