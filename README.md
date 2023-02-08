@@ -1,5 +1,5 @@
 - AirBnB clone - The console
-- A command interpreter to manage the AirBnB objects.
+- A command interpreter (python-based) to manage the AirBnB objects.
 - Concepts:<br>
 [Python packages](https://intranet.alxswe.com/concepts/66)<br>
 [AirBnB clone](https://intranet.alxswe.com/concepts/74)<br>

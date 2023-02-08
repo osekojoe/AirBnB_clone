@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+<<<<<<< HEAD
 
 """ Engine package for the AirBnB """
 import json
@@ -36,7 +37,7 @@ class FileStorage:
 
             def reload(self):
                 """
-                reload(self): deserializes the JSON file to __objects (only if the JSON file (__file_path) exists ; otherwise, do nothing. If the file doesn’t exist, no exception should be raised)
+                reload(self): deserializes the JSON file to __objects (only if the JSON file (__file_path) exists ; otherwise, do nothing. If the file does not exist, no exception should be raised)
                 """
         try:
             with open(FileStorage.__file_path, 'r', encoding='utf-8') as f:
@@ -46,3 +47,6 @@ class FileStorage:
             pass
 
 
+=======
+""" """
+>>>>>>> 9a6616c2a7903dc8752751545513c57c5c14cdc8

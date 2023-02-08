@@ -9,6 +9,7 @@ from models import storage
 
 format_time = "%Y-%m-%dT%H:%M:%S.%f"
 
+
 class BaseModel:
     """defines all common attributes/methods for other classes"""
 
@@ -21,7 +22,7 @@ class BaseModel:
             
 
             for key, value in kwargs.items():
-                if key != "__Class__":
+                if key != "__class__":
                     setattr(self, key, value)
 
             for key, value in kwargs.items():
@@ -34,12 +35,12 @@ class BaseModel:
                 storage.new(self)
 
             
-            if kwargs.get("created_at") and type(self.created_at) is str:
-                    self.created_at = datetime.strptime(kwargs["created_at"], format_time)
+            if kwargs.get("created_at", None) and type(self.created_at) is str:
+                self.created_at = datetime.strptime(kwargs["created_at"], format_time)
             else:
                 self.created_at = datetime.utcnow()
 
-            if kwargs.get("updated_at") and type(self.updated_at) is str:
+            if kwargs.get("updated_at", None) and type(self.updated_at) is str:
                 self.updated_at = datetime.strptime(kwargs["updated_at"], format_time)
             else:
                 self.updated_at = datetime.utcnow()
