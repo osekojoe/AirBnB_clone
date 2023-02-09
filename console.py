@@ -2,7 +2,9 @@
 """console - command interpreter"""
 
 
+import sys
 import cmd 
+from models.__init__ import storage
 
 
 class HBNBCommand(cmd.Cmd):
@@ -87,6 +89,11 @@ class HBNBCommand(cmd.Cmd):
            print(storage._FileStorage__objects[key])
         except:
             print("** no instance found **")
+
+    def help_show(self):
+        """help for the show method"""
+        print("Prints the string representation of an instance")
+        print("[Usage]: show <className> <objectId>\n")
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
