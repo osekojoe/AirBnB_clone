@@ -61,5 +61,32 @@ class HBNBCommand(cmd.Cmd):
         print("Creates a new instance of class")
         print("[Usage]: create <className>\n")
 
+    def show(self, args):
+        """Prints the string representation of an instance based on the class
+        name and id. Ex: $ show BaseModel 1234-1234-1234"""
+        my_args = args.partition(" ")
+        cls_name = my_args[0]
+        cls_id = my_args[2]
+
+        if cls_id and ' ' in cls_id:
+            cls_id = cls_id.lstrip()
+
+        if not cls_name:
+            print("** class name missing **")
+
+        if not cls_name not in HBNBCommand.classes:
+             print("** class doesn't exist **")
+             return
+
+        if not cls_id:
+            print("** instance id missing **")
+            return
+
+       key = cls_name + '.' + cls_id
+       try:
+           print(storage._FileStorage__objects[key])
+        except:
+            print("** no instance found **")
+
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
