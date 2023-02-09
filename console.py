@@ -84,8 +84,8 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             return
 
-       key = cls_name + '.' + cls_id
-       try:
+        key = cls_name + '.' + cls_id
+        try:
            print(storage._FileStorage__objects[key])
         except:
             print("** no instance found **")
@@ -117,10 +117,10 @@ class HBNBCommand(cmd.Cmd):
              print("** instance id missing **")
              return
 
-         key = cls_name + '.' + cls_id
-         try:
-             del(storage.all()[key])
-             storage.save()
+        key = cls_name + '.' + cls_id
+        try:
+            del(storage.all()[key])
+            storage.save()
         except KeyError:
             print("** no instance found **")
 
@@ -158,9 +158,9 @@ class HBNBCommand(cmd.Cmd):
         """Updates an instance based on the class name and id by adding or
         updating attribute (save the change into the JSON file). 
         Ex: $ update BaseModel 1234-1234-1234 email "aibnb@mail.com". """
-        my_args = args.partition(' ')
-        cls_name = my_args[0]
-        cls_id = my_args[2]
+        args = args.partition(' ')
+        cls_name = args[0]
+        cls_id = args[2]
 
         if cls_name and ' ' in cls_name:
             cls_name = cls_name.lstrp()
@@ -179,6 +179,64 @@ class HBNBCommand(cmd.Cmd):
         if not cls_id:
             print("** instance id missing **")
             return
+
+        #key from class and id
+        key = cls_name + '.' + cls_id
+
+        if key not in storage.all():
+            print("** no instance found **")
+            return
+        # checks if args or kwargs
+        if '{' in args[2] and '}' in args[2] and type(eval(args[2])) is dict:
+            kwargs = eval(args[2])
+            args = []
+            for key, value in kwargs.items():
+                args.append(key)
+                args.append(value)
+            else: #isolates args
+                args = args[2]
+                if args and args[0] is '\"': #checks for quoted args
+                    closing_quote = args.find('\"', 1)
+                    attr_name = args[1:closing_quote]
+                    args = args[closing_quote + 1:]
+
+                args = args.partition(' ')
+
+                #if attr_name is not quoted
+                if not attr_name  and args[0] is not ' ':
+                    attr_name = args[0]
+
+                #if value is quoted
+                if args[2] and args[2][0] is '\"':
+                    attr_val = args[2][1:args[2].find('\"', 1)]
+
+                # if attr_val is not quoted
+                if not attr_val and args[2]:
+                    attr_val = args[2].partition(' ')[0]
+
+                args = [attr_name, attr_val]
+
+        # dictionary of current objects
+        new_dict = storage.all()[key]
+
+        #iterate attr_names and attr_vals
+        for i, attr_name in enumerate(args):
+            if (i % 2 == 0):
+                attr_val = args[i + 1]
+                if not attr_name:
+                    print("** attribute name missing **")
+                    return
+                if not attr_val:
+                    print("** value missing **")
+                    return
+
+                if attr_name in HBNBCommand.types:
+                    attr_val = HBNBCommand.types[att_name](att_val)
+
+                #update dict with name and val
+                new_dict.__dict__.update({attr_name: attr_val})
+
+            new_dict.save() #save to file
 
     def help_update(self):
         """help for update method"""
