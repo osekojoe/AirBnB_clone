@@ -63,7 +63,7 @@ class HBNBCommand(cmd.Cmd):
         print("Creates a new instance of class")
         print("[Usage]: create <className>\n")
 
-    def show(self, args):
+    def do_show(self, args):
         """Prints the string representation of an instance based on the class
         name and id. Ex: $ show BaseModel 1234-1234-1234"""
         my_args = args.partition(" ")
@@ -94,6 +94,96 @@ class HBNBCommand(cmd.Cmd):
         """help for the show method"""
         print("Prints the string representation of an instance")
         print("[Usage]: show <className> <objectId>\n")
+
+    def do_destroy(self, args):
+        """Deletes an instance based on the class name and id (save the change
+        into the JSON file). Ex: $ destroy BaseModel 1234-1234-1234"""
+        my_args = args.partition(" ")
+        cls_name = my_args[0]
+        cls_id = my_args[1]
+
+        if cls_id and ' ' in cls_id:
+            cls_id = cls_id.lstrip()
+
+        if not cls_name:
+            print("** class name missing **")
+            return
+
+        if cls_name not in HBNBCommand.classes:
+            print("** class doesn't exist **")
+            return
+
+        if not cls_id:
+             print("** instance id missing **")
+             return
+
+         key = cls_name + '.' + cls_id
+         try:
+             del(storage.all()[key])
+             storage.save()
+        except KeyError:
+            print("** no instance found **")
+
+    def help_destroy(self):
+        """help for destroy method"""
+        print("Deletes instance of a class")
+        print("[Usage]: destroy <className> <objectId>\n")
+
+    def do_all(self, args):
+        """Prints all string representation of all instances based or not on
+        the class name. Ex: $ all BaseModel or $ all """
+        list_of_strings = []
+
+        if args:
+            arg = args.split(' ')[0]
+            if arg not in HBNBCommand.classes:
+                print("** class doesn't exist **")
+                return
+
+            for key, val in storage._FileStorage__objects.items():
+                if key.split('.')[0] == arg:
+                    list_of_strings.append(str(val))
+        else:
+            for key, val in storage._FileStorage__objects.items():
+                list_of_strings.append(str(val))
+
+        print(list_of_strings)
+
+    def help_all(self):
+        """help for all method"""
+        print("Prints all string representation class instances")
+        print("[Usage]: all <className>\n")
+
+    def do_update(self, args):
+        """Updates an instance based on the class name and id by adding or
+        updating attribute (save the change into the JSON file). 
+        Ex: $ update BaseModel 1234-1234-1234 email "aibnb@mail.com". """
+        my_args = args.partition(' ')
+        cls_name = my_args[0]
+        cls_id = my_args[2]
+
+        if cls_name and ' ' in cls_name:
+            cls_name = cls_name.lstrp()
+
+        if not cls_name:
+            print("** class name missing **")
+            return
+
+        if cls_name not in HBNBCommand.classes: 
+            print("** class doesn't exist **")
+            return
+
+        if cls_id and ' ' in cls_id:
+            cls_id = cls_id.lstrip()
+
+        if not cls_id:
+            print("** instance id missing **")
+            return
+
+    def help_update(self):
+        """help for update method"""
+        print("updates object instance")
+        print("Usage: update <class name> <id> <attribute name> <attribute value>\n")
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
