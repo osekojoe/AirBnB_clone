@@ -65,3 +65,7 @@ class BaseModel:
             new_dict["updated_at"] = new_dict["updated_at"].isoformat()
 
         return new_dict
+
+    def delete(self):
+        """deletes an instance from storage"""
+        models.storage.delete(self)
