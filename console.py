@@ -97,31 +97,21 @@ class HBNBCommand(cmd.Cmd):
     def do_destroy(self, args):
         """Deletes an instance based on the class name and id (save the change
         into the JSON file). Ex: $ destroy BaseModel 1234-1234-1234"""
-        my_args = args.partition(" ")
-        cls_name = my_args[0]
-        cls_id = my_args[1]
-
-        if cls_id and ' ' in cls_id:
-            cls_id = cls_id.lstrip()
-
-        if not cls_name:
+        args = shlex.split(args)
+        if not args:
             print("** class name missing **")
-            return
-
-        if cls_name not in classes:
+        elif args[0] in classes:
+            if len(args) > 1:
+                key = args[0] + '.' + args[1]
+                if key in models.storage.all():
+                    models.storage.all().pop(key)
+                    models.storage.save()
+                else:
+                    print("** no instance found **")
+            else:
+                print("** instance id missing **")
+        else:
             print("** class doesn't exist **")
-            return
-
-        if not cls_id:
-             print("** instance id missing **")
-             return
-
-        key = cls_name + '.' + cls_id
-        try:
-            del(storage.all()[key])
-            storage.save()
-        except KeyError:
-            print("** no instance found **")
 
     def help_destroy(self):
         """help for destroy method"""
