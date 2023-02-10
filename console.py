@@ -5,6 +5,7 @@
 import sys
 import cmd 
 import models
+from models.__init__ import storage
 from models.base_model import BaseModel
 import shlex
 
@@ -43,7 +44,7 @@ class HBNBCommand(cmd.Cmd):
             if not args:
                 raise SyntaxError()
             my_args = args.split(' ')
-            if my_args[0] not in HBNBCommand.classes:
+            if my_args[0] not in classes:
                 raise NameError()
 
             obj = eval("{}()".format(my_args[0]))
@@ -71,29 +72,22 @@ class HBNBCommand(cmd.Cmd):
     def do_show(self, args):
         """Prints the string representation of an instance based on the class
         name and id. Ex: $ show BaseModel 1234-1234-1234"""
-        my_args = args.partition(" ")
-        cls_name = my_args[0]
-        cls_id = my_args[2]
+        my_args = shlex.split(args)
 
-        if cls_id and ' ' in cls_id:
-            cls_id = cls_id.lstrip()
-
-        if not cls_name:
+        if len(my_args) == 0:
             print("** class name missing **")
-
-        if not cls_name not in classes:
-             print("** class doesn't exist **")
-             return
-
-        if not cls_id:
-            print("** instance id missing **")
             return
-
-        key = cls_name + '.' + cls_id
-        try:
-           print(storage._FileStorage__objects[key])
-        except:
-            print("** no instance found **")
+        if my_args[0] in classes:
+            if len(my_args) > 1:
+                key = my_args[0] + '.' + my_args[1]
+                if key in models.storage.all():
+                    print(models.storage.all()[key])
+                else:
+                    print("** no instance found **")
+            else:
+                print("** instance id missing **")
+        else:
+            print("** class doesn't exist **")
 
     def help_show(self):
         """help for the show method"""
@@ -114,7 +108,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
 
-        if cls_name not in HBNBCommand.classes:
+        if cls_name not in classes:
             print("** class doesn't exist **")
             return
 
@@ -163,7 +157,7 @@ class HBNBCommand(cmd.Cmd):
         """Updates an instance based on the class name and id by adding or
         updating attribute (save the change into the JSON file). 
         Ex: $ update BaseModel 1234-1234-1234 email "aibnb@mail.com". """
-        args = shlex.split(arg)
+        args = shlex.split(args)
         integers = ["number_rooms", "number_bathrooms", "max_guest",
                     "price_by_night"]
         floats = ["latitude", "longitude"]
