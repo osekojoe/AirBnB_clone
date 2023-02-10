@@ -3,7 +3,7 @@
 
 
 import json
-import models
+from models.base_model import BaseModel
 
 
 class FileStorage:
@@ -33,22 +33,24 @@ class FileStorage:
 
     def save(self):
         """serializes __objects to the JSON file (path: __file_path)"""
-        json_objects = {}
-        for key in self.__objects:
-            if key == "password":
-                json_objects[key].decode()
-            json_objects[key] = self.__objects[key].to_dict()
         with open(self.__file_path, 'w') as f:
-            json.dump(json_objects, f)
+            tmp = {}
+            tmp.update(self.__objects)
+            for key, val in tmp.items():
+                tmp[key] = val.to_dict()
+            json.dump(tmp, f)
 
     def reload(self):
         """deserializes the JSON file to __objects (only if the JSON file 
         (__file_path) exists ; otherwise, do nothing. 
         If the file doesn’t exist, no exception should be raised)"""
+        classes = {'BaseModel': BaseModel}
+        
         try:
+            tmp = {}
             with open(self.__file_path, 'r') as f:
-                jsn = json.load(f)
-            for key in jsn:
-                self.__objects[key] = classes[jsn[key]["__class__"]](**jsn[key])
-        except:
+                tmp = json.load(f)
+            for key, val in tmp.items():
+                self.all()[key] = classes[val['__class__']](**val)
+        except FileNotFoundError:
             pass
