@@ -3,7 +3,7 @@
 
 
 import sys
-import cmd 
+import cmd
 import models
 from models.__init__ import storage
 from models.user import User
@@ -16,8 +16,8 @@ from models.review import Review
 import shlex
 
 
-classes = {"BaseModel": BaseModel, "User": User, "State": State, "City": City, 
-            "Amenity": Amenity,"Place": Place, "Review": Review}
+classes = {"BaseModel": BaseModel, "User": User, "State": State, "City": City,
+           "Amenity": Amenity, "Place": Place, "Review": Review}
 
 
 class HBNBCommand(cmd.Cmd):
@@ -154,8 +154,8 @@ class HBNBCommand(cmd.Cmd):
 
     def do_update(self, args):
         """Updates an instance based on the class name and id by adding or
-        updating attribute (save the change into the JSON file). 
-        Ex: $ update BaseModel 1234-1234-1234 email "aibnb@mail.com". """
+        updating attribute (save the change into the JSON file).
+        Ex: $ update BaseModel 1234-1234-1234 email "aibnb@mail.com" """
         args = shlex.split(args)
         integers = ["number_rooms", "number_bathrooms", "max_guest",
                     "price_by_night"]
@@ -195,7 +195,9 @@ class HBNBCommand(cmd.Cmd):
     def help_update(self):
         """help for update method"""
         print("updates object instance")
-        print("Usage: update <class name> <id> <attribute name> <attribute value>\n")
+        print("Usage: update <class name> <id> <attribute name>\
+                <attribute value>\n")
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
