@@ -16,8 +16,8 @@ from models.review import Review
 import shlex
 
 
-classes = {"BaseModel": BaseModel, 'User': User, 'State': State, 'City': City, 
-            'Amenity': Amenity,'Place': Place, 'Review': Review}
+classes = {"BaseModel": BaseModel, "User": User, "State": State, "City": City, 
+            "Amenity": Amenity,"Place": Place, "Review": Review}
 
 
 class HBNBCommand(cmd.Cmd):
@@ -128,22 +128,24 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, args):
         """Prints all string representation of all instances based or not on
         the class name. Ex: $ all BaseModel or $ all """
-        list_of_strings = []
+        args = shlex.split(args)
+        objs = []
 
-        if args:
-            arg = args.split(' ')[0]
-            if arg not in classes:
-                print("** class doesn't exist **")
-                return
-
-            for key, val in storage._FileStorage__objects.items():
-                if key.split('.')[0] == arg:
-                    list_of_strings.append(str(val))
+        if not args:
+            objs_dict = models.storage.all()
+        elif args[0] in classes:
+            objs_dict = models.storage.all(classes[args[0]])
         else:
-            for key, val in storage._FileStorage__objects.items():
-                list_of_strings.append(str(val))
+            print("** class doesn't exist **")
 
-        print(list_of_strings)
+            return False
+
+        for key in objs_dict:
+            obj_list.append(str(objs_dict[key]))
+
+        print("[", end="")
+        print(", ".join(obj_list), end="")
+        print("]")
 
     def help_all(self):
         """help for all method"""
