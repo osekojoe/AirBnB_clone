@@ -13,7 +13,7 @@ from models.review import Review
 
 
 classes = {'BaseModel': BaseModel, 'User': User, 'State': State, 'City': City,
-            'Amenity': Amenity,'Place': Place, 'Review': Review}
+           'Amenity': Amenity, 'Place': Place, 'Review': Review}
 
 
 class FileStorage:
@@ -51,9 +51,9 @@ class FileStorage:
             json.dump(tmp, f)
 
     def reload(self):
-        """deserializes the JSON file to __objects (only if the JSON file 
-        (__file_path) exists ; otherwise, do nothing. 
-        If the file doesn’t exist, no exception should be raised)"""    
+        """deserializes the JSON file to __objects (only if the JSON file
+        (__file_path) exists ; otherwise, do nothing.
+        If the file doesn’t exist, no exception should be raised)"""
         try:
             tmp = {}
             with open(self.__file_path, 'r') as f:
