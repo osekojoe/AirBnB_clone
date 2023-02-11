@@ -9,10 +9,10 @@ from models.__init__ import storage
 from models.user import User
 from models.base_model import BaseModel
 from models.state import State
-from models.state import City
-from models.state import Amenity
-from models.state import Place
-from models.state import Review
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 import shlex
 
 
