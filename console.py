@@ -3,7 +3,7 @@
 
 
 import sys
-import cmd
+import cmd 
 import models
 from models.__init__ import storage
 from models.user import User
@@ -16,9 +16,8 @@ from models.state import Review
 import shlex
 
 
-classes = {"BaseModel": BaseModel, 'User': User, 
-           'State': State, 'City': City, 'Amenity': Amenity,
-            'Place': Place, 'Review': Review}
+classes = {"BaseModel": BaseModel, 'User': User, 'State': State, 'City': City, 
+            'Amenity': Amenity,'Place': Place, 'Review': Review}
 
 
 class HBNBCommand(cmd.Cmd):
