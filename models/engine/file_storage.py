@@ -62,3 +62,18 @@ class FileStorage:
                 self.all()[key] = classes[val['__class__']](**val)
         except FileNotFoundError:
             pass
+
+    def get(self, cls, id):
+        """Return object based on class name and id"""
+        if cls not in classes.values():
+            return None
+
+        all_cls = models.storage.all(cls)
+        for val in all_cls.values():
+            if (val.id == id):
+                return val
+
+        return None
+
+    def count(self, cls=None):
+        """count objects in storage"""
