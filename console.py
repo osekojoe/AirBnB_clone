@@ -22,7 +22,7 @@ classes = {"BaseModel": BaseModel, "User": User, "State": State, "City": City,
 
 class HBNBCommand(cmd.Cmd):
     """Defines the HBNB console"""
-    prompt = '(hbnb) '
+    prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
 
     def do_quit(self, arg):
         """exit program"""
