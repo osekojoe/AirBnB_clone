@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Public class attributes Amenity"""
+"""Amenity"""
 
 from models.base_model import BaseModel
 

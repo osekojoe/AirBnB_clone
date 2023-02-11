@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Public class attributes Review"""
+"""Review"""
 
 from models.base_model import BaseModel
 
