@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""place"""
+"""Public class attributes place"""
 
 from models.base_model import BaseModel
 
