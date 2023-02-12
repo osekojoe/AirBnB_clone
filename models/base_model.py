@@ -21,14 +21,16 @@ class BaseModel:
             for key, value in kwargs.items():
                 if key != "__class__":
                     setattr(self, key, value)
-            
+
             if kwargs.get("created_at", None) and type(self.created_at) is str:
-                self.created_at = datetime.strptime(kwargs["created_at"], format_time)
+                self.created_at = datetime.strptime(
+                        kwargs["created_at"], format_time)
             else:
                 self.created_at = datetime.utcnow()
 
             if kwargs.get("updated_at", None) and type(self.updated_at) is str:
-                self.updated_at = datetime.strptime(kwargs["updated_at"], format_time)
+                self.updated_at = datetime.strptime(
+                        kwargs["updated_at"], format_time)
             else:
                 self.updated_at = datetime.utcnow()
 
@@ -41,8 +43,8 @@ class BaseModel:
 
     def __str__(self):
         """string representation of BaseModel class"""
-        return ("[{:s}] ({:s}) {}".format(self.__class__.__name__,self.id,
-                                        self.__dict__))
+        return ("[{:s}] ({:s}) {}".format(
+            self.__class__.__name__, self.id, self.__dict__))
 
     def save(self):
         """updates the public instance attribute updated_at with the
@@ -52,7 +54,7 @@ class BaseModel:
         models.storage.save()
 
     def to_dict(self):
-        """returns a dictionary containing all keys/values of __dict__ 
+        """returns a dictionary containing all keys/values of __dict__
         of the instance"""
         new_dict = self.__dict__.copy()
 
