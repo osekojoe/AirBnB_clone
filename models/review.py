@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Review"""
+"""Review - facility quality rating"""
 
 from models.base_model import BaseModel
 
