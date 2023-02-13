@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""State"""
+"""State - geographical"""
 
 from models.base_model import BaseModel
 
