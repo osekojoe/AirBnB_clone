@@ -6,7 +6,7 @@ from models.base_model import BaseModel
 
 
 class User(BaseModel):
-    """User"""
+    """Describes an airbnb User"""
     email = ""
     password = ""
     first_name = ""
