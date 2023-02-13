@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Amenity"""
+"""Amenity description"""
 
 from models.base_model import BaseModel
 
