@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""place"""
+"""place - geographical"""
 
 from models.base_model import BaseModel
 
