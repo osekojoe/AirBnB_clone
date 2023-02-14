@@ -87,3 +87,22 @@ class FileStorage:
             count = len(models.storage.all(clas).values())
 
         return count
+
+    def delete(self, obj=None):
+        """delete an object from __objects if the given object exists
+        Args:
+            obj: given object
+        Exceptions:
+            KeyError: when object doesn't exist
+        """
+        if obj:
+            key = "{}.{}".format(type(obj).__name__, obj.id)
+            try:
+                del self.__objects[key]
+            except KeyError:
+                pass
+
+    def close(self):
+        """deserializing the JSON file to objects
+        """
+        self.reload()
