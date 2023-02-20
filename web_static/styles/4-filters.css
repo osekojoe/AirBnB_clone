@@ -15,9 +15,6 @@ button {
 	width: 20%;
 	border-style: none;
 	border-radius: 4px;
-	position: relative;
- 	top: 50%;
-  	transform: translateY(-50%);
   	float: right;
 	margin-top: 11px;
 	margin-bottom: 11px;
